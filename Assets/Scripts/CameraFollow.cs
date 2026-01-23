@@ -8,8 +8,10 @@ public class CameraFollow : MonoBehaviour
     public float mouseSensitivity = 100f;
     public Transform playerBody;
     float Xrotation;
+    float ClampRotation = 90;
     bool MouseActive;
-    public bool GamePause;
+   
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +30,7 @@ public class CameraFollow : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
             MouseActive = false;
-            GamePause = true;
+            
             
         }
 
@@ -39,7 +41,7 @@ public class CameraFollow : MonoBehaviour
 
             Xrotation -= MouseY;
 
-            Xrotation = Mathf.Clamp(Xrotation, -90f, 90f);
+            Xrotation = Mathf.Clamp(Xrotation, -ClampRotation, ClampRotation);
 
             transform.localRotation = Quaternion.Euler(Xrotation, 0f, 0f);
             playerBody.transform.Rotate(Vector3.up * Mousex);

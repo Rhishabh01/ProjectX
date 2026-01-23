@@ -41,10 +41,8 @@ public class PlayerController : MonoBehaviour
         float InputX = Input.GetAxis("Horizontal");
         float InputZ = Input.GetAxis("Vertical");
 
-       
-       
-            playerRb.transform.Translate(Vector3.forward * InputZ * playerspeed * Time.deltaTime);
-            playerRb.transform.Translate(Vector3.right * InputX * playerspeed * Time.deltaTime);
+        playerRb.transform.Translate(Vector3.forward * InputZ * playerspeed * Time.deltaTime);
+        playerRb.transform.Translate(Vector3.right * InputX * playerspeed * Time.deltaTime);
             
             
        
@@ -56,11 +54,13 @@ public class PlayerController : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.R) && CanReset == true)
         {
-            playerRb.transform.position = new Vector3(0, 5, 0);
+            Vector3 resetPos = new Vector3(0, 5, 0);
+            playerRb.transform.position = resetPos;
             CanReset = false;
             StartCoroutine(ResetCoolDown());
         }
         
+       
 
     }
 
@@ -68,8 +68,6 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(CoolDown);
         CanReset = true;
-        
-        
     }
 
     private void OnCollisionEnter(Collision collision)
