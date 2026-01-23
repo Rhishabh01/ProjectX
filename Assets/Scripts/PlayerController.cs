@@ -1,21 +1,31 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
 public class PlayerController : MonoBehaviour
 {
-    public int playerspeed;
+    
     public Rigidbody playerRb;
-    private CameraFollow came;
+    
+
+    public Vector3 velocity;
     public float jumppower = 10;
+    public int playerspeed;
+    public float gravity;
+
     public bool Isgrounded;
     public bool gameOver;
-    public float gravity;
-    public Vector3 velocity;
+
+    private float CoolDown = 2f;
+    private bool CanReset = true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        came = gameObject.GetComponent<CameraFollow>();
+        
         playerRb = GetComponent<Rigidbody>();
+        
     }
 
     // Update is called once per frame
@@ -43,9 +53,23 @@ public class PlayerController : MonoBehaviour
             playerRb.AddForce(Vector3.up * jumppower,ForceMode.Impulse);
             Isgrounded = false;
         }
-       
+        
+        if (Input.GetKeyDown(KeyCode.R) && CanReset == true)
+        {
+            playerRb.transform.position = new Vector3(0, 5, 0);
+            CanReset = false;
+            StartCoroutine(ResetCoolDown());
+        }
         
 
+    }
+
+    IEnumerator ResetCoolDown()
+    {
+        yield return new WaitForSeconds(CoolDown);
+        CanReset = true;
+        Debug.Log(CoolDown);
+        
     }
 
     private void OnCollisionEnter(Collision collision)
