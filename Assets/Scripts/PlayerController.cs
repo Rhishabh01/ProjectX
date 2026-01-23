@@ -45,8 +45,8 @@ public class PlayerController : MonoBehaviour
        
             playerRb.transform.Translate(Vector3.forward * InputZ * playerspeed * Time.deltaTime);
             playerRb.transform.Translate(Vector3.right * InputX * playerspeed * Time.deltaTime);
-        
-        
+            
+            
        
         if (Input.GetKeyDown(KeyCode.Space) && Isgrounded == true)
         {
@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(CoolDown);
         CanReset = true;
-        Debug.Log(CoolDown);
+        
         
     }
 
@@ -83,7 +83,9 @@ public class PlayerController : MonoBehaviour
        if(collision.gameObject.CompareTag("Enemy"))
         {
             gameOver = true;
-        }    
+        }
+ 
+        
       
     }
 

@@ -18,10 +18,6 @@ public class EnemyMovement : MonoBehaviour
     {
          Vector3 lookDirect=(player.transform.position - gameObject.transform.position).normalized;
          enemyRb.transform.Translate(lookDirect * enemySpeed * Time.deltaTime);
-           
-         if(enemyRb.transform.position.x > 20 || enemyRb.transform.position.x < -20)
-        {
-            enemyRb.transform.position = new Vector3(0,2,0);
-        }
+
     }
 }
