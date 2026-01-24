@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,16 +9,17 @@ public class PlayerController : MonoBehaviour
 {
     
     public Rigidbody playerRb;
-    
+    public GameObject Sword;
 
     public Vector3 velocity;
     public float jumppower = 10;
     public int playerspeed;
     public float gravity;
-
+    public GameObject sword;
+    public Animator anim = sword.GetComponent<Animator>();
     public bool Isgrounded;
     public bool gameOver;
-
+    public bool CanAttack;
     private float CoolDown = 2f;
     private bool CanReset = true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -60,6 +62,14 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(ResetCoolDown());
         }
         
+        if(Input.GetMouseButtonDown(0))
+        {
+            
+            anim.SetTrigger("Attack1");
+            CanAttack = false;
+            StartCoroutine(WeaponCooldown());
+        }
+
        
 
     }
@@ -67,9 +77,14 @@ public class PlayerController : MonoBehaviour
     IEnumerator ResetCoolDown()
     {
         yield return new WaitForSeconds(CoolDown);
+        anim.SetTrigger("Attack1");
         CanReset = true;
     }
-
+    IEnumerator WeaponCooldown()
+    {
+        yield return new WaitForSeconds(CoolDown);
+        CanAttack = true;
+    }
     private void OnCollisionEnter(Collision collision)
     {
        if (collision.gameObject.CompareTag("Ground"))
