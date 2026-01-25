@@ -18,14 +18,17 @@ public class PlayerController : MonoBehaviour
     public GameObject sword;
     public bool Isgrounded;
     public bool gameOver;
-    public bool CanAttack = false;
+   
+  
+    bool HasEquipped;
+
     private float CoolDown = 0.2f;
     private bool CanReset = true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
-     
+        Animator anim = sword.GetComponent<Animator>();
+        Cursor.lockState = CursorLockMode.Locked;
         playerRb = GetComponent<Rigidbody>();
         
     }
@@ -33,22 +36,20 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
         MoveSystem();
-       
+        FightSystem();
     }
 
     void MoveSystem()
     {
         Animator anim = sword.GetComponent<Animator>();
-        
+
         float InputX = Input.GetAxis("Horizontal");
         float InputZ = Input.GetAxis("Vertical");
 
         playerRb.transform.Translate(Vector3.forward * InputZ * playerspeed * Time.deltaTime);
         playerRb.transform.Translate(Vector3.right * InputX * playerspeed * Time.deltaTime);
-
-        
        
         if (Input.GetKeyDown(KeyCode.Space) && Isgrounded == true)
         {
@@ -63,28 +64,30 @@ public class PlayerController : MonoBehaviour
             CanReset = false;
             StartCoroutine(ResetCoolDown());
         }
-       
-        
-        if(Input.GetMouseButtonDown(0) &&  )
+      
+    }
+
+    void FightSystem()
+    {
+        Animator anim = sword.GetComponent<Animator>();
+
+        if (Input.GetMouseButtonDown(0) && HasEquipped == true)
         {
             anim.SetTrigger("Attack1");
             StartCoroutine(WeaponCooldown());
+
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
             anim.SetBool("Equip", true);
-            anim.SetTrigger("equipDone");
+            HasEquipped = true;
         }
-       
-
     }
     IEnumerator WeaponCooldown()
     {
-        Animator anim = sword.GetComponent<Animator>();
-        yield return new WaitForSeconds(CoolDown);
-        CanAttack = true;
-        
-      
+        Animator anim = sword.GetComponent<Animator>();  
+        yield return new WaitForSeconds(0.1f);
+        anim.SetBool("Attack2", false);
     }
 
     IEnumerator ResetCoolDown()

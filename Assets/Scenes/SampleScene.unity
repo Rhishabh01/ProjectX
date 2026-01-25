@@ -272,6 +272,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseSensitivity: 100
   playerBody: {fileID: 574729936}
+  MouseActive: 0
 --- !u!1 &394553519 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 93af6533dedfba04fb7ff337ffadbe28, type: 3}
@@ -1112,31 +1113,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 93af6533dedfba04fb7ff337ffadbe28, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.23067673
+      value: 0.1210812
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 93af6533dedfba04fb7ff337ffadbe28, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.2003386
+      value: 0.031838547
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 93af6533dedfba04fb7ff337ffadbe28, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.018767951
+      value: -0.99097663
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 93af6533dedfba04fb7ff337ffadbe28, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.9519982
+      value: -0.04786484
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 93af6533dedfba04fb7ff337ffadbe28, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 3.25
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 93af6533dedfba04fb7ff337ffadbe28, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 23
+      value: -165.88
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 93af6533dedfba04fb7ff337ffadbe28, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 153.42
+      value: -4.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 93af6533dedfba04fb7ff337ffadbe28, type: 3}
       propertyPath: m_ConstrainProportionsScale
