@@ -952,7 +952,7 @@ MonoBehaviour:
   jumppower: 10
   gravity: 0
   jumpsleft: 2
-  playerspeed: 10
+  playerspeed: 0
   playerFall: 0
   Isgrounded: 0
   gameOver: 0

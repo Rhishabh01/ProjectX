@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     private float CoolDown = 0.2f;
 
     public int jumpsleft = 1;
-    public int playerspeed;
+    float multiplier;
     public int playerFall = 2;
     public bool Isgrounded;
     public bool gameOver;
@@ -43,28 +43,31 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         MoveSystem();
         FightSystem();
     }
 
     void MoveSystem()
     {
+        float speed = 10;
+        
         Animator anim = sword.GetComponent<Animator>();
 
         float InputX = Input.GetAxis("Horizontal");
         float InputZ = Input.GetAxis("Vertical");
 
-        playerRb.transform.Translate(Vector3.forward * InputZ * playerspeed * Time.deltaTime);
-        playerRb.transform.Translate(Vector3.right * InputX * playerspeed * Time.deltaTime);
 
-        
-            
+        playerRb.transform.Translate(Vector3.forward * InputZ * speed * multiplier * Time.deltaTime);
+        playerRb.transform.Translate(Vector3.right * InputX * speed * multiplier * Time.deltaTime);
+
+
+
         if (Input.GetKeyDown(KeyCode.Space) && Isgrounded == true)
         {
             playerRb.AddForce(Vector3.up * jumppower,ForceMode.Impulse);
             Isgrounded = false;
             jumpsleft = 1;
+            speed = 20;
             Debug.Log(jumpsleft);
         }
         else if(Input.GetKeyDown(KeyCode.Space) && Isgrounded == false && jumpsleft == 1)
@@ -72,8 +75,20 @@ public class PlayerController : MonoBehaviour
             playerRb.AddForce(Vector3.up * jumppower, ForceMode.Impulse);
             jumpsleft = 0;
         }
-       
-  
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+
+            multiplier = 2;
+        }
+        else
+        {
+            multiplier = 1;
+        }
+
+
+
+
         if (Input.GetKeyDown(KeyCode.R) && CanReset == true)
         {
             Vector3 resetPos = new Vector3(0, 5, 0);
