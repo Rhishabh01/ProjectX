@@ -79,8 +79,9 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            anim.SetBool("Equip", true);
-            HasEquipped = true;
+            HasEquipped = !HasEquipped;
+            anim.SetBool("Equip", HasEquipped);
+           
         }
     }
     IEnumerator WeaponCooldown()
