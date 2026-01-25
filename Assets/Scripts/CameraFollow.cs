@@ -9,7 +9,7 @@ public class CameraFollow : MonoBehaviour
     public Transform playerBody;
     float Xrotation;
     float ClampRotation = 90;
-    bool MouseActive;
+    public bool MouseActive;
    
 
     // Start is called before the first frame update
