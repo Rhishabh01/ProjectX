@@ -16,17 +16,16 @@ public class PlayerController : MonoBehaviour
     public int playerspeed;
     public float gravity;
     public GameObject sword;
-    
     public bool Isgrounded;
     public bool gameOver;
-    public bool CanAttack;
+    public bool CanAttack = false;
     private float CoolDown = 0.2f;
     private bool CanReset = true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
 
-       
+     
         playerRb = GetComponent<Rigidbody>();
         
     }
@@ -42,14 +41,14 @@ public class PlayerController : MonoBehaviour
     void MoveSystem()
     {
         Animator anim = sword.GetComponent<Animator>();
-
+        
         float InputX = Input.GetAxis("Horizontal");
         float InputZ = Input.GetAxis("Vertical");
 
         playerRb.transform.Translate(Vector3.forward * InputZ * playerspeed * Time.deltaTime);
         playerRb.transform.Translate(Vector3.right * InputX * playerspeed * Time.deltaTime);
-            
-            
+
+        
        
         if (Input.GetKeyDown(KeyCode.Space) && Isgrounded == true)
         {
@@ -64,25 +63,27 @@ public class PlayerController : MonoBehaviour
             CanReset = false;
             StartCoroutine(ResetCoolDown());
         }
+       
         
-        if(Input.GetMouseButtonDown(0) )
+        if(Input.GetMouseButtonDown(0) &&  )
         {
             anim.SetTrigger("Attack1");
-            CanAttack = false;
             StartCoroutine(WeaponCooldown());
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
             anim.SetBool("Equip", true);
-            CanAttack = true;
+            anim.SetTrigger("equipDone");
         }
+       
 
     }
     IEnumerator WeaponCooldown()
     {
         Animator anim = sword.GetComponent<Animator>();
         yield return new WaitForSeconds(CoolDown);
-        anim.SetTrigger("Attack1");
+        CanAttack = true;
+        
       
     }
 
