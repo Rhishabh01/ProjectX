@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,24 +10,30 @@ public class PlayerController : MonoBehaviour
 {
     
     public Rigidbody playerRb;
-    
+    public GameObject sword;
+    public GameObject wallcoll;
 
     public Vector3 velocity;
+
     public float jumppower = 10;
-    public int playerspeed;
     public float gravity;
-    public GameObject sword;
+    private float CoolDown = 0.2f;
+
+    public int jumpsleft = 1;
+    public int playerspeed;
+    public int playerFall = 2;
     public bool Isgrounded;
     public bool gameOver;
    
   
     bool HasEquipped;
-
-    private float CoolDown = 0.2f;
-    private bool CanReset = true;
+    bool CanReset = true;
+    
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        wallcoll = GameObject.FindGameObjectWithTag("WallLeft");
         Animator anim = sword.GetComponent<Animator>();
         Cursor.lockState = CursorLockMode.Locked;
         playerRb = GetComponent<Rigidbody>();
@@ -50,13 +57,23 @@ public class PlayerController : MonoBehaviour
 
         playerRb.transform.Translate(Vector3.forward * InputZ * playerspeed * Time.deltaTime);
         playerRb.transform.Translate(Vector3.right * InputX * playerspeed * Time.deltaTime);
-       
+
+        
+            
         if (Input.GetKeyDown(KeyCode.Space) && Isgrounded == true)
         {
             playerRb.AddForce(Vector3.up * jumppower,ForceMode.Impulse);
             Isgrounded = false;
+            jumpsleft = 1;
+            Debug.Log(jumpsleft);
         }
-        
+        else if(Input.GetKeyDown(KeyCode.Space) && Isgrounded == false && jumpsleft == 1)
+        {
+            playerRb.AddForce(Vector3.up * jumppower, ForceMode.Impulse);
+            jumpsleft = 0;
+        }
+       
+  
         if (Input.GetKeyDown(KeyCode.R) && CanReset == true)
         {
             Vector3 resetPos = new Vector3(0, 5, 0);
@@ -110,7 +127,7 @@ public class PlayerController : MonoBehaviour
             gameOver = true;
         }
  
-        
+      
       
     }
 
