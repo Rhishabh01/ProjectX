@@ -20,9 +20,9 @@ public class CameraFollow : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-       
+      
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Cursor.lockState = CursorLockMode.None;
@@ -33,8 +33,8 @@ public class CameraFollow : MonoBehaviour
 
         if (MouseActive == true)
         {
-            float Mousex = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-            float MouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+            float Mousex =( Input.GetAxis("Mouse X") * mouseSensitivity )* Time.deltaTime;
+            float MouseY = (Input.GetAxis("Mouse Y") * mouseSensitivity )* Time.deltaTime;
 
             Xrotation -= MouseY;
 
