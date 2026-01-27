@@ -3,18 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 
 public class PlayerController : MonoBehaviour
 {
-    
-    public Rigidbody playerRb;
+    public CharacterController Controller;
     public GameObject sword;
-    public GameObject wallcoll;
-
+    public GameObject groundcheck;
     public Vector3 velocity;
-
+    public LayerMask groundmask;
     public float jumppower = 10;
     public float gravity;
     private float CoolDown = 0.2f;
@@ -33,16 +32,17 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        wallcoll = GameObject.FindGameObjectWithTag("WallLeft");
+        
+
         Animator anim = sword.GetComponent<Animator>();
         Cursor.lockState = CursorLockMode.Locked;
-        playerRb = GetComponent<Rigidbody>();
+     
         
     }
 
     // Update is called once per frame
     void Update()
-    {
+    { 
         MoveSystem();
         FightSystem();
     }
@@ -56,30 +56,42 @@ public class PlayerController : MonoBehaviour
         float InputX = Input.GetAxis("Horizontal");
         float InputZ = Input.GetAxis("Vertical");
 
+        Vector3 Move = transform.right * InputX + transform.forward * InputZ;
 
-        playerRb.transform.Translate(Vector3.forward * InputZ * speed * multiplier * Time.deltaTime);
-        playerRb.transform.Translate(Vector3.right * InputX * speed * multiplier * Time.deltaTime);
+        Controller.Move(Move * speed * multiplier * Time.deltaTime);
 
+       
+       
+        Controller.Move(velocity * Time.deltaTime);
 
+        velocity.y += gravity * Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.Space) && Isgrounded == true)
+        Isgrounded = Physics.CheckSphere(groundcheck.transform.position, 1.2f, groundmask);
+
+        
+       if(Isgrounded && velocity.y < 0)
         {
-            playerRb.AddForce(Vector3.up * jumppower,ForceMode.Impulse);
+            velocity.y = -2f;
+            Debug.Log("IsGrounded");
+        }
+        if (Input.GetButtonDown("Jump") && Isgrounded == true)
+        {
+            velocity.y = MathF.Sqrt(jumppower * -2 * gravity);   //    
             Isgrounded = false;
             jumpsleft = 1;
-            speed = 20;
-            Debug.Log(jumpsleft);
-        }
+
+        }   
         else if(Input.GetKeyDown(KeyCode.Space) && Isgrounded == false && jumpsleft == 1)
         {
-            playerRb.AddForce(Vector3.up * jumppower, ForceMode.Impulse);
+            velocity.y = MathF.Sqrt(jumppower * -2 * gravity);
             jumpsleft = 0;
         }
 
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
 
+        if (Input.GetKey(KeyCode.LeftShift) && Isgrounded == true)
+        {
             multiplier = 2;
+
         }
         else
         {
@@ -88,11 +100,10 @@ public class PlayerController : MonoBehaviour
 
 
 
-
         if (Input.GetKeyDown(KeyCode.R) && CanReset == true)
         {
-            Vector3 resetPos = new Vector3(0, 5, 0);
-            playerRb.transform.position = resetPos;
+
+            gameObject.transform.position = new Vector3(0, 5, 0);
             CanReset = false;
             StartCoroutine(ResetCoolDown());
         }
@@ -109,11 +120,15 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(WeaponCooldown());
 
         }
+        else if(Input.GetMouseButtonDown(1) && HasEquipped == true)
+        {
+
+        }
         if (Input.GetKeyDown(KeyCode.Q))
         {
             HasEquipped = !HasEquipped;
             anim.SetBool("Equip", HasEquipped);
-           
+
         }
     }
     IEnumerator WeaponCooldown()
@@ -131,19 +146,18 @@ public class PlayerController : MonoBehaviour
     
     private void OnCollisionEnter(Collision collision)
     {
-       if (collision.gameObject.CompareTag("Ground"))
-        {
-            Isgrounded = true;
-            
-        }
+      
 
-       if(collision.gameObject.CompareTag("Enemy"))
+       if (collision.gameObject.CompareTag("Enemy"))
         {
             gameOver = true;
+            Debug.Log("Yea lil bro");
         }
  
-      
+   
       
     }
+
+   
 
 }
