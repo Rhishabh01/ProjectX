@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
 
         velocity.y += gravity * Time.deltaTime;
 
-        Isgrounded = Physics.CheckSphere(groundcheck.transform.position, 1.2f, groundmask);
+        Isgrounded = Physics.CheckSphere(groundcheck.transform.position, 0.4f, groundmask);
 
         
        if(Isgrounded && velocity.y < 0)
