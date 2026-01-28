@@ -138,8 +138,8 @@ public class PlayerController : MonoBehaviour
         else if(Input.GetMouseButtonDown(1) && HasEquipped == true && IsSprinting == false && AlreadyAttackMotion == false)
         {
             anim.SetTrigger("Attack2");
-           // StartCoroutine(WeaponCooldown());
-            
+            StartCoroutine(ResetCoolDown());
+            AlreadyAttackMotion = true;
 
         }
         if (Input.GetKeyDown(KeyCode.Q))
@@ -156,11 +156,13 @@ public class PlayerController : MonoBehaviour
         anim.SetTrigger("Attack1");
         AlreadyAttackMotion = false;
     }
-
+    
     IEnumerator ResetCoolDown()
     {
-        yield return new WaitForSeconds(CoolDown);
-        CanReset = true;
+        Animator anim = sword.GetComponent<Animator>();
+        yield return new WaitForSeconds(1f);
+        anim.SetTrigger("Attack2");
+        AlreadyAttackMotion = false;
     }
     
     private void OnCollisionEnter(Collision collision)
