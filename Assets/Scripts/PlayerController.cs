@@ -18,7 +18,8 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     private float jumppower = 5;
     public float gravity;
- 
+    
+
 
     public int jumpsleft = 1;
     private float multiplier;
@@ -60,18 +61,29 @@ public class PlayerController : MonoBehaviour
 
         Controller.Move(Move * speed * multiplier * Time.deltaTime);
 
-       
+      
+        
        
         Controller.Move(velocity * Time.deltaTime);
 
         velocity.y += gravity * Time.deltaTime;
 
-        Isgrounded = Physics.CheckSphere(groundcheck.transform.position, 0.4f, groundmask);
+     
 
-        
+        Isgrounded =  Physics.Raycast(gameObject.transform.position , Vector3.down, out RaycastHit hit, 1.2f);
+        Debug.Log(Isgrounded);
+
+        float angle = Vector3.Angle(hit.normal, Vector3.up);
+        Vector3.ProjectOnPlane(Vector3.down, hit.normal);
+
+        if (Isgrounded && angle > 40)
+        {
+           velocity +=  Vector3.ProjectOnPlane(Vector3.down, hit.normal) ;
+        }
+
        if(Isgrounded && velocity.y < 0)
         {
-            velocity.y = -2f;
+           velocity.y = -2f ;
             Debug.Log("IsGrounded");
         }
         if (Input.GetButtonDown("Jump") && Isgrounded == true)
@@ -117,7 +129,7 @@ public class PlayerController : MonoBehaviour
             CanReset = false;
             StartCoroutine(ResetCoolDown());
         }
-      
+  
     }
 
     void FightSystem()
