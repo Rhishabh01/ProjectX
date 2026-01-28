@@ -5,6 +5,7 @@ using System.Globalization;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 public class PlayerController : MonoBehaviour
@@ -12,20 +13,19 @@ public class PlayerController : MonoBehaviour
     public CharacterController Controller;
     public GameObject sword;
     public GameObject groundcheck;
-    public Vector3 velocity;
+    private Vector3 velocity;
     public LayerMask groundmask;
-    public float jumppower = 10;
+    private Animator anim;
+    private float jumppower = 5;
     public float gravity;
-    private float CoolDown = 0.2f;
+ 
 
     public int jumpsleft = 1;
-    float multiplier;
-    public int playerFall = 2;
-    public bool Isgrounded;
+    private float multiplier;
+    private bool Isgrounded;
     public bool gameOver;
-    private bool Isplayinganim = false;
 
-    bool Issprint;
+
     bool HasEquipped;
     bool CanReset = true;
     bool IsSprinting;
@@ -34,12 +34,9 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
-
-        Animator anim = sword.GetComponent<Animator>();
+         anim = sword.GetComponent<Animator>();
         Cursor.lockState = CursorLockMode.Locked;
-     
-        
+
     }
 
     // Update is called once per frame
@@ -51,6 +48,7 @@ public class PlayerController : MonoBehaviour
 
     void MoveSystem()
     {
+        
         float speed = 10;
         
         Animator anim = sword.GetComponent<Animator>();
@@ -115,7 +113,6 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R) && CanReset == true)
         {
-
             gameObject.transform.position = new Vector3(0, 5, 0);
             CanReset = false;
             StartCoroutine(ResetCoolDown());
@@ -125,41 +122,36 @@ public class PlayerController : MonoBehaviour
 
     void FightSystem()
     {
-        Animator anim = sword.GetComponent<Animator>();
+        
 
-        if (Input.GetMouseButtonDown(0) && HasEquipped == true && IsSprinting == false && AlreadyAttackMotion == false)
+        if (Input.GetMouseButtonDown(0) && HasEquipped == true && IsSprinting == false && AlreadyAttackMotion == false  )
         {
             anim.SetTrigger("Attack1");
             AlreadyAttackMotion = true;
             StartCoroutine(WeaponCooldown());
-           
-
         }
         else if(Input.GetMouseButtonDown(1) && HasEquipped == true && IsSprinting == false && AlreadyAttackMotion == false)
         {
             anim.SetTrigger("Attack2");
             StartCoroutine(ResetCoolDown());
             AlreadyAttackMotion = true;
-
         }
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && IsSprinting == false)
         {
             HasEquipped = !HasEquipped;
             anim.SetBool("Equip", HasEquipped);
-
         }
     }
+
     IEnumerator WeaponCooldown()
     {
-        Animator anim = sword.GetComponent<Animator>();  
         yield return new WaitForSeconds(2f);
         anim.SetTrigger("Attack1");
         AlreadyAttackMotion = false;
     }
     
     IEnumerator ResetCoolDown()
-    {
-        Animator anim = sword.GetComponent<Animator>();
+    { 
         yield return new WaitForSeconds(1f);
         anim.SetTrigger("Attack2");
         AlreadyAttackMotion = false;
@@ -174,8 +166,6 @@ public class PlayerController : MonoBehaviour
             gameOver = true;
             Debug.Log("Yea lil bro");
         }
- 
-   
       
     }
 

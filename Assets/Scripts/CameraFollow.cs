@@ -15,20 +15,22 @@ public class CameraFollow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        MouseActive = true;
+        
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
-      
-        if (Input.GetKeyDown(KeyCode.Escape))
+      if (Input.GetMouseButtonDown(0))
+        {          
+            MouseActive = true;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        if (Input.GetKeyDown(KeyCode.Escape) && MouseActive == true)
         {
             Cursor.lockState = CursorLockMode.None;
             MouseActive = false;
-            
-            
+             
         }
 
         if (MouseActive == true)
