@@ -23,12 +23,14 @@ public class PlayerController : MonoBehaviour
     public int playerFall = 2;
     public bool Isgrounded;
     public bool gameOver;
-   
-  
+    private bool Isplayinganim = false;
+
+    bool Issprint;
     bool HasEquipped;
     bool CanReset = true;
-    
-    
+    bool IsSprinting;
+    bool IsNotMoving;
+    bool AlreadyAttackMotion;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -86,15 +88,26 @@ public class PlayerController : MonoBehaviour
             velocity.y = MathF.Sqrt(jumppower * -2 * gravity);
             jumpsleft = 0;
         }
-
-
-        if (Input.GetKey(KeyCode.LeftShift) && Isgrounded == true)
+        if (InputX > 0 || InputZ > 0)
         {
-            multiplier = 2;
-
+            IsNotMoving = false;
         }
         else
         {
+            IsNotMoving = true;
+               
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift) && Isgrounded == true && IsNotMoving == false)
+        {
+            anim.SetBool("IsSprint", true);
+            multiplier = 2;
+            IsSprinting = true;
+        }
+        else
+        {
+            anim.SetBool("IsSprint", false);
+            IsSprinting = false;
             multiplier = 1;
         }
 
@@ -114,14 +127,19 @@ public class PlayerController : MonoBehaviour
     {
         Animator anim = sword.GetComponent<Animator>();
 
-        if (Input.GetMouseButtonDown(0) && HasEquipped == true)
+        if (Input.GetMouseButtonDown(0) && HasEquipped == true && IsSprinting == false && AlreadyAttackMotion == false)
         {
             anim.SetTrigger("Attack1");
+            AlreadyAttackMotion = true;
             StartCoroutine(WeaponCooldown());
+           
 
         }
-        else if(Input.GetMouseButtonDown(1) && HasEquipped == true)
+        else if(Input.GetMouseButtonDown(1) && HasEquipped == true && IsSprinting == false && AlreadyAttackMotion == false)
         {
+            anim.SetTrigger("Attack2");
+           // StartCoroutine(WeaponCooldown());
+            
 
         }
         if (Input.GetKeyDown(KeyCode.Q))
@@ -134,8 +152,9 @@ public class PlayerController : MonoBehaviour
     IEnumerator WeaponCooldown()
     {
         Animator anim = sword.GetComponent<Animator>();  
-        yield return new WaitForSeconds(0.1f);
-        anim.SetBool("Attack2", false);
+        yield return new WaitForSeconds(2f);
+        anim.SetTrigger("Attack1");
+        AlreadyAttackMotion = false;
     }
 
     IEnumerator ResetCoolDown()
@@ -147,7 +166,7 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
       
-
+        // fixing needed
        if (collision.gameObject.CompareTag("Enemy"))
         {
             gameOver = true;
