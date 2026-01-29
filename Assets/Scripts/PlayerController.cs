@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -18,20 +19,22 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     private float jumppower = 5;
     public float gravity;
-    
-
+    float angle;
+    public float SlideSpeed;
 
     public int jumpsleft = 1;
     private float multiplier;
     private bool Isgrounded;
     public bool gameOver;
-
-
+    int slidespeed;
+    public float duration = 3;
     bool HasEquipped;
     bool CanReset = true;
     bool IsSprinting;
     bool IsNotMoving;
     bool AlreadyAttackMotion;
+    bool WalkAble;
+    bool Sliding;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -42,7 +45,8 @@ public class PlayerController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    { 
+    {
+       
         MoveSystem();
         FightSystem();
     }
@@ -57,39 +61,60 @@ public class PlayerController : MonoBehaviour
         float InputX = Input.GetAxis("Horizontal");
         float InputZ = Input.GetAxis("Vertical");
 
-        Vector3 Move = transform.right * InputX + transform.forward * InputZ;
+        Vector3 Pos = transform.right * InputX + transform.forward * InputZ;
 
-        Controller.Move(Move * speed * multiplier * Time.deltaTime);
-
-      
-        
-       
+        Controller.Move(Pos * speed * multiplier * Time.deltaTime);
+  
         Controller.Move(velocity * Time.deltaTime);
 
         velocity.y += gravity * Time.deltaTime;
 
-     
-
-        Isgrounded =  Physics.Raycast(gameObject.transform.position , Vector3.down, out RaycastHit hit, 1.2f);
-        Debug.Log(Isgrounded);
-
-        float angle = Vector3.Angle(hit.normal, Vector3.up);
-        Vector3.ProjectOnPlane(Vector3.down, hit.normal);
-
-        if (Isgrounded && angle > 40)
+        if (InputX > 0 || InputZ > 0)
         {
-            velocity += Vector3.ProjectOnPlane(Vector3.down, hit.normal);
+            IsNotMoving = false;
+        }
+        else
+        {
+            IsNotMoving = true;
         }
 
-        if (Isgrounded && velocity.y < 0)
+        Isgrounded = Physics.Raycast(groundcheck.transform.position, Vector3.down, out RaycastHit hit, 1.2f, groundmask);
+
+        if (Isgrounded)
         {
-           velocity.y += -2f ;
-            Debug.Log("IsGrounded");
+            angle = Vector3.Angle(hit.normal, Vector3.up);
+            if(angle > 50)
+            {
+                slidespeed = 20;
+            }
+            WalkAble = angle <= 40f;
+
+            if (!WalkAble)
+            {
+      
+                Vector3 slope = Vector3.ProjectOnPlane(Vector3.down, hit.normal);
+                velocity += slope * slidespeed * Time.deltaTime;
+            }
+
+            if (velocity.y < 0 && WalkAble && Sliding == false)
+            {
+                velocity.y = -2f; // Stick to ground
+                velocity.x = 0f;
+                velocity.z = 0f;
+            }
         }
-        if (Input.GetButtonDown("Jump") && Isgrounded == true)
+
+        if (Isgrounded && velocity.y < 0 && WalkAble == true)
         {
-            velocity.y = MathF.Sqrt(jumppower * -2 * gravity);   //    
+            velocity.y = -2f;
+            
+        }
+        if (Input.GetButtonDown("Jump") && Isgrounded == true && angle < 45)
+        {
+            velocity.y = MathF.Sqrt(jumppower * -2 * gravity);       
             Isgrounded = false;
+            velocity.x = 0f;
+            velocity.z = 0f;
             jumpsleft = 1;
 
         }   
@@ -98,16 +123,8 @@ public class PlayerController : MonoBehaviour
             velocity.y = MathF.Sqrt(jumppower * -2 * gravity);
             jumpsleft = 0;
         }
-        if (InputX > 0 || InputZ > 0)
-        {
-            IsNotMoving = false;
-        }
-        else
-        {
-            IsNotMoving = true;
-               
-        }
-
+    
+        
         if (Input.GetKey(KeyCode.LeftShift) && Isgrounded == true && IsNotMoving == false)
         {
             anim.SetBool("IsSprint", true);
@@ -119,23 +136,12 @@ public class PlayerController : MonoBehaviour
             anim.SetBool("IsSprint", false);
             IsSprinting = false;
             multiplier = 1;
-        }
-
-
-
-        if (Input.GetKeyDown(KeyCode.R) && CanReset == true)
-        {
-            gameObject.transform.position = new Vector3(0, 5, 0);
-            CanReset = false;
-            StartCoroutine(ResetCoolDown());
-        }
+        }  
   
     }
 
     void FightSystem()
     {
-        
-
         if (Input.GetMouseButtonDown(0) && HasEquipped == true && IsSprinting == false && AlreadyAttackMotion == false  )
         {
             anim.SetTrigger("Attack1");
@@ -157,29 +163,20 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator WeaponCooldown()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.5f);
         anim.SetTrigger("Attack1");
         AlreadyAttackMotion = false;
     }
     
     IEnumerator ResetCoolDown()
     { 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.7f);
         anim.SetTrigger("Attack2");
         AlreadyAttackMotion = false;
     }
     
-    private void OnCollisionEnter(Collision collision)
-    {
-      
-        // fixing needed
-       if (collision.gameObject.CompareTag("Enemy"))
-        {
-            gameOver = true;
-            Debug.Log("Yea lil bro");
-        }
-      
-    }
+    
+
 
    
 
