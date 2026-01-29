@@ -78,12 +78,12 @@ public class PlayerController : MonoBehaviour
 
         if (Isgrounded && angle > 40)
         {
-           velocity +=  Vector3.ProjectOnPlane(Vector3.down, hit.normal) ;
+            velocity += Vector3.ProjectOnPlane(Vector3.down, hit.normal);
         }
 
-       if(Isgrounded && velocity.y < 0)
+        if (Isgrounded && velocity.y < 0)
         {
-           velocity.y = -2f ;
+           velocity.y += -2f ;
             Debug.Log("IsGrounded");
         }
         if (Input.GetButtonDown("Jump") && Isgrounded == true)
