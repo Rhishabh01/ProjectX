@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 
 public class PlayerController : MonoBehaviour
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public CharacterController Controller;
     public GameObject sword;
     public GameObject groundcheck;
+    public GameObject camera;
     private Vector3 velocity;
     public LayerMask groundmask;
     private Animator anim;
@@ -29,7 +31,7 @@ public class PlayerController : MonoBehaviour
     int slidespeed;
     public float duration = 3;
     bool HasEquipped;
-    bool CanReset = true;
+    
     bool IsSprinting;
     bool IsNotMoving;
     bool AlreadyAttackMotion;
@@ -39,7 +41,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
          anim = sword.GetComponent<Animator>();
-        Cursor.lockState = CursorLockMode.Locked;
+       
 
     }
 
@@ -118,15 +120,11 @@ public class PlayerController : MonoBehaviour
             jumpsleft = 1;
 
         }   
-        else if(Input.GetKeyDown(KeyCode.Space) && Isgrounded == false && jumpsleft == 1)
+        else if(Input.GetKeyDown(KeyCode.Space) && Isgrounded == false && jumpsleft == 1 )
         {
             velocity.y = MathF.Sqrt(jumppower * -2 * gravity);
             jumpsleft = 0;
         }
-        
-        
-       
-           
        
         if (Input.GetKey(KeyCode.LeftShift) && Isgrounded == true && IsNotMoving == false)
         {
@@ -141,25 +139,28 @@ public class PlayerController : MonoBehaviour
             multiplier = 1;
         }  
          if (Input.GetKeyDown(KeyCode.LeftControl) && Sliding == false && Isgrounded == true)
-        {
-            Debug.Log("slide is clicked");
-
+        { 
             Sliding = true;
         }
-         if(Sliding == true && duration >=0)
+        if(Sliding == true && duration >=0)
         {
+            camera.transform.localPosition = new Vector3(0, 0.212f, 0);
             Vector3 sliding;
             sliding = gameObject.transform.forward * 2;
             velocity = sliding * 2;
-            duration -= Time.fixedDeltaTime;
-            Debug.Log("Sliding");
-
+            duration -= Time.deltaTime;
+            
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                Sliding = false;
+                velocity.y = MathF.Sqrt(jumppower * -2 * gravity);
+            }
         }
         else
         {
+            camera.transform.localPosition = new Vector3(0, 0.812f, 0);
             Sliding = false;
-            duration = 3f;
-            Debug.Log("Reseted");
+            duration = 1.5f;
         }
     }
 
