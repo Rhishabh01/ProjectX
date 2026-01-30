@@ -1030,6 +1030,7 @@ MonoBehaviour:
   Controller: {fileID: 574729939}
   sword: {fileID: 394553519}
   groundcheck: {fileID: 1158466412}
+  camera: {fileID: 330585543}
   groundmask:
     serializedVersion: 2
     m_Bits: 64
@@ -1037,7 +1038,7 @@ MonoBehaviour:
   SlideSpeed: 10
   jumpsleft: 2
   gameOver: 0
-  duration: 3
+  duration: 1.5
 --- !u!143 &574729939
 CharacterController:
   m_ObjectHideFlags: 0

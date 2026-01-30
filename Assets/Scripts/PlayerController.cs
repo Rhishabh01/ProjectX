@@ -1,13 +1,8 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
-using Unity.VisualScripting;
-using UnityEditor;
+using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
+
 
 
 public class PlayerController : MonoBehaviour
@@ -48,14 +43,14 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+        
         MoveSystem();
         FightSystem();
     }
 
     void MoveSystem()
     {
-        
+       
         float speed = 10;
         
         Animator anim = sword.GetComponent<Animator>();
@@ -126,7 +121,7 @@ public class PlayerController : MonoBehaviour
             jumpsleft = 0;
         }
        
-        if (Input.GetKey(KeyCode.LeftShift) && Isgrounded == true && IsNotMoving == false)
+        if (Input.GetKey(KeyCode.LeftShift) && Isgrounded == true && IsNotMoving == false && Sliding == false)
         {
             anim.SetBool("IsSprint", true);
             multiplier = 2;
@@ -142,7 +137,8 @@ public class PlayerController : MonoBehaviour
         { 
             Sliding = true;
         }
-        if(Sliding == true && duration >=0)
+       
+        if (Sliding == true && duration >=0)
         {
             camera.transform.localPosition = new Vector3(0, 0.212f, 0);
             Vector3 sliding;
@@ -178,7 +174,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(ResetCoolDown());
             AlreadyAttackMotion = true;
         }
-        if (Input.GetKeyDown(KeyCode.Q) && IsSprinting == false)
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             HasEquipped = !HasEquipped;
             anim.SetBool("Equip", HasEquipped);
@@ -208,8 +204,8 @@ IEnumerator SlideCoolDown()
         yield return new WaitForSeconds(10f);
         Sliding = false;
     }
+  
+  
 
-
-   
 
 }
