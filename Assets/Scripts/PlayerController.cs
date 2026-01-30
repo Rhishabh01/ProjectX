@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public CharacterController Controller;
     public GameObject sword;
     public GameObject groundcheck;
+    public GameObject camera;
     private Vector3 velocity;
     public LayerMask groundmask;
     private Animator anim;
@@ -143,11 +144,12 @@ public class PlayerController : MonoBehaviour
          if (Input.GetKeyDown(KeyCode.LeftControl) && Sliding == false && Isgrounded == true)
         {
             Debug.Log("slide is clicked");
-
+           
             Sliding = true;
         }
-         if(Sliding == true && duration >=0)
+        if(Sliding == true && duration >=0)
         {
+            camera.transform.localPosition = new Vector3(0, 0.212f, 0);
             Vector3 sliding;
             sliding = gameObject.transform.forward * 2;
             velocity = sliding * 2;
@@ -157,6 +159,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            camera.transform.localPosition = new Vector3(0, 0.812f, 0);
             Sliding = false;
             duration = 3f;
             Debug.Log("Reseted");
