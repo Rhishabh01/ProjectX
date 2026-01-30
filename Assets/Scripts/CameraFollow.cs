@@ -45,8 +45,8 @@ public class CameraFollow : MonoBehaviour
             transform.localRotation = Quaternion.Euler(Xrotation, 0f, 0f);
             playerBody.transform.Rotate(Vector3.up * Mousex);
         }
-        
 
+      
 
     }
 }
