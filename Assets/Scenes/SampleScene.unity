@@ -1037,7 +1037,7 @@ MonoBehaviour:
   SlideSpeed: 10
   jumpsleft: 2
   gameOver: 0
-  duration: 10
+  duration: 3
 --- !u!143 &574729939
 CharacterController:
   m_ObjectHideFlags: 0

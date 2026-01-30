@@ -123,8 +123,11 @@ public class PlayerController : MonoBehaviour
             velocity.y = MathF.Sqrt(jumppower * -2 * gravity);
             jumpsleft = 0;
         }
-    
         
+        
+       
+           
+       
         if (Input.GetKey(KeyCode.LeftShift) && Isgrounded == true && IsNotMoving == false)
         {
             anim.SetBool("IsSprint", true);
@@ -137,7 +140,27 @@ public class PlayerController : MonoBehaviour
             IsSprinting = false;
             multiplier = 1;
         }  
-  
+         if (Input.GetKeyDown(KeyCode.LeftControl) && Sliding == false && Isgrounded == true)
+        {
+            Debug.Log("slide is clicked");
+
+            Sliding = true;
+        }
+         if(Sliding == true && duration >=0)
+        {
+            Vector3 sliding;
+            sliding = gameObject.transform.forward * 2;
+            velocity = sliding * 2;
+            duration -= Time.fixedDeltaTime;
+            Debug.Log("Sliding");
+
+        }
+        else
+        {
+            Sliding = false;
+            duration = 3f;
+            Debug.Log("Reseted");
+        }
     }
 
     void FightSystem()
@@ -175,7 +198,15 @@ public class PlayerController : MonoBehaviour
         AlreadyAttackMotion = false;
     }
     
-    
+IEnumerator SlideCoolDown()
+    {
+        Vector3 sliding;
+        sliding = gameObject.transform.forward * 2;
+        velocity = sliding * 2;
+        duration -= Time.fixedDeltaTime;
+        yield return new WaitForSeconds(10f);
+        Sliding = false;
+    }
 
 
    
