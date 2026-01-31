@@ -1,6 +1,7 @@
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class CameraFollow : MonoBehaviour
@@ -10,33 +11,33 @@ public class CameraFollow : MonoBehaviour
     float Xrotation;
     float ClampRotation = 90;
     public bool MouseActive;
-    private GameObject scenecontrol;
-
+   
     // Start is called before the first frame update
     void Start()
     {
-       
+        MouseActive = true;
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
-        if (Input.GetMouseButtonDown(0) )
-        {          
-            MouseActive = true;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.LeftWindows)  && MouseActive == true)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            MouseActive = false;
-             
-        }
 
-        if (MouseActive == true)
+         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.LeftWindows)  && MouseActive == true)
+         {
+             Cursor.lockState = CursorLockMode.None;
+             MouseActive = false;
+
+         }
+        
+
+        if (MouseActive)
         {
-            float Mousex =( Input.GetAxis("Mouse X") * mouseSensitivity )* Time.deltaTime;
-            float MouseY = (Input.GetAxis("Mouse Y") * mouseSensitivity )* Time.deltaTime;
+            
+            
+            Cursor.lockState = CursorLockMode.Locked;
+
+            float Mousex = (Input.GetAxis("Mouse X") * mouseSensitivity) * Time.deltaTime;
+            float MouseY = (Input.GetAxis("Mouse Y") * mouseSensitivity) * Time.deltaTime;
 
             Xrotation -= MouseY;
 
