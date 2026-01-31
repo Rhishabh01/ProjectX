@@ -67,6 +67,8 @@ public class ControlScene : MonoBehaviour
         sceneUI.SetActive(false);      
         Time.timeScale = 1f;
         gamepause = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        
     }
 
     public void enablePause()
@@ -74,6 +76,7 @@ public class ControlScene : MonoBehaviour
         sceneUI.SetActive(true);
         Time.timeScale = 0f;     
         gamepause = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
 

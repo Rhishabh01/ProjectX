@@ -18,16 +18,18 @@ public class SceneManage : MonoBehaviour
     {
         Application.Quit();
     }
-    public bool SwitchToGameScene(bool MouseActive)     // changes scene to game
+    public bool SwitchToGameScene(bool MouseActive)     // sets mouse lock?
     {
         
         MouseActive = true;
         return MouseActive;
     }
 
-    public void SwitchToGame() // changes to normal screen 
+    public void SwitchToGame() // changes to game scene // play button
     {
+        
         SceneManager.LoadScene("SampleScene");
+       
     }
 
     public void SwitchToSettings()
