@@ -10,18 +10,18 @@ public class CameraFollow : MonoBehaviour
     float Xrotation;
     float ClampRotation = 90;
     public bool MouseActive;
-   
+    private GameObject scenecontrol;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+       
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
-      if (Input.GetMouseButtonDown(0) )
+        if (Input.GetMouseButtonDown(0) )
         {          
             MouseActive = true;
             Cursor.lockState = CursorLockMode.Locked;
