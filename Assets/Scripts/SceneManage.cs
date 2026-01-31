@@ -18,14 +18,16 @@ public class SceneManage : MonoBehaviour
     {
         Application.Quit();
     }
-    public void SwitchToGameScene()     // changes scene to game
+    public bool SwitchToGameScene(bool MouseActive)     // changes scene to game
     {
-        SceneManager.LoadScene("SampleScene");
+        
+        MouseActive = true;
+        return MouseActive;
     }
 
     public void SwitchToGame() // changes to normal screen 
     {
-        
+        SceneManager.LoadScene("SampleScene");
     }
 
     public void SwitchToSettings()
@@ -33,7 +35,12 @@ public class SceneManage : MonoBehaviour
 
     }
 
- 
+    public void SwitchToMenu()
+    {
+        SceneManager.LoadScene(1);
+        Time.timeScale = 1f;
+       
+    }
 
 
 }

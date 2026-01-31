@@ -436,7 +436,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 250567747}
         m_TargetAssemblyTypeName: ControlScene, Assembly-CSharp
-        m_MethodName: SwitchToGame
+        m_MethodName: disablePause
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2832,7 +2832,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1766879738}
         m_TargetAssemblyTypeName: SceneManage, Assembly-CSharp
-        m_MethodName: SwitchToGameScene
+        m_MethodName: SwitchToMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3420,7 +3420,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2146326506
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3440,7 +3440,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -106.42}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -693.9475, y: 0}
+  m_AnchoredPosition: {x: -221, y: 0}
   m_SizeDelta: {x: 1623.5049, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2146326507

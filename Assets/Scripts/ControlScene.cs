@@ -21,17 +21,17 @@ public class ControlScene : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.LeftWindows) )
         {
-            
-            if (gamepause)
+            gamepause = true;
+            if (gamepause == true)
             {
-                disablePause();
+                enablePause();
                
             }
             else 
             {
-                enablePause();
+                disablePause();
             }
         }
         
@@ -42,9 +42,11 @@ public class ControlScene : MonoBehaviour
         SceneManager.LoadScene("SampleScene");
     }
 
-    public void SwitchToGame() // changes to normal screen 
+    public void SwitchToGame() // changes to game scene removing Pause options
     {
-        disablePause();
+        sceneUI.SetActive(false);
+        Time.timeScale = 1f;
+        
     }
 
     public void SwitchToSettings()
@@ -54,7 +56,8 @@ public class ControlScene : MonoBehaviour
 
     public void SwitchToMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene(1);
+        
     }
 
 
