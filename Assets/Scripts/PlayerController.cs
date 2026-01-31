@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 
@@ -36,7 +37,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
          anim = sword.GetComponent<Animator>();
-       
+         
 
     }
 
@@ -146,7 +147,7 @@ public class PlayerController : MonoBehaviour
             velocity = sliding * 2;
             duration -= Time.deltaTime;
             
-            if(Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 Sliding = false;
                 velocity.y = MathF.Sqrt(jumppower * -2 * gravity);
@@ -162,7 +163,7 @@ public class PlayerController : MonoBehaviour
 
     void FightSystem()
     {
-        if (Input.GetMouseButtonDown(0) && HasEquipped == true && IsSprinting == false && AlreadyAttackMotion == false  )
+        if (Input.GetMouseButtonDown(0) && HasEquipped == true && IsSprinting == false && AlreadyAttackMotion == false && Cursor.lockState == CursorLockMode.Locked )
         {
             anim.SetTrigger("Attack1");
             AlreadyAttackMotion = true;
@@ -195,16 +196,7 @@ public class PlayerController : MonoBehaviour
         AlreadyAttackMotion = false;
     }
     
-IEnumerator SlideCoolDown()
-    {
-        Vector3 sliding;
-        sliding = gameObject.transform.forward * 2;
-        velocity = sliding * 2;
-        duration -= Time.fixedDeltaTime;
-        yield return new WaitForSeconds(10f);
-        Sliding = false;
-    }
-  
+
   
 
 
