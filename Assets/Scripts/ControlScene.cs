@@ -62,7 +62,6 @@ public class ControlScene : MonoBehaviour
     public void disablePause()
     {
         sceneUI.SetActive(false);      
-        
         Time.timeScale = 1f;
         gamepause = false;
     }
