@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
                 velocity += slope * slidespeed * Time.deltaTime;
             }
 
-            if (velocity.y < 0 && WalkAble && Sliding == false)
+            if (velocity.y < 0 && WalkAble )
             {
                 velocity.y = -2f; // Stick to ground
                 velocity.x = 0f;
@@ -139,14 +139,14 @@ public class PlayerController : MonoBehaviour
             Sliding = true;
         }
        
-        if (Sliding == true && duration >=0)
+        if (Sliding == true && duration >=0 && Isgrounded == true)
         {
             camera.transform.localPosition = new Vector3(0, 0.212f, 0);
             Vector3 sliding;
             sliding = gameObject.transform.forward * 2;
-            velocity = sliding * 2;
+            velocity = sliding * 2;         
             duration -= Time.deltaTime;
-            
+            velocity.y = -1.5f;
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 Sliding = false;
@@ -157,7 +157,7 @@ public class PlayerController : MonoBehaviour
         {
             camera.transform.localPosition = new Vector3(0, 0.812f, 0);
             Sliding = false;
-            duration = 1.5f;
+            duration = 1.5f;   
         }
     }
 
