@@ -1,11 +1,5 @@
-using Unity.VisualScripting;
-using UnityEditor;
-using UnityEditor.Rendering;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-
 public class ControlScene : MonoBehaviour
 {
     public GameObject sceneUI;
