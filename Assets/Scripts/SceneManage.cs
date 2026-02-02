@@ -22,6 +22,7 @@ public class SceneManage : MonoBehaviour
     }
     public void CloseGame()
     {
+        StartCoroutine(FadeEffect());
         Application.Quit();
     }
     public bool SwitchToGameScene(bool MouseActive)     // sets mouse lock?
@@ -52,7 +53,7 @@ public class SceneManage : MonoBehaviour
 
     IEnumerator FadeEffect()
     {
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(2);
         
         SceneManager.LoadScene("SampleScene");
     }

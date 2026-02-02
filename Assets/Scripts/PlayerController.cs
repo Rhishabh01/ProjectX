@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
   
         Controller.Move(velocity * multiplier* Time.deltaTime);
 
-        velocity.y += gravity * Time.deltaTime;
+        velocity.y += gravity * multiplier * Time.deltaTime;
 
         if (InputX > 0 || InputZ > 0)
         {
@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour
             IsNotMoving = true;
         }
 
-        Isgrounded = Physics.Raycast(groundcheck.transform.position, Vector3.down, out RaycastHit hit, 1.2f, groundmask);
+        Isgrounded = Physics.Raycast(groundcheck.transform.position, Vector3.down, out RaycastHit hit, 0.8f, groundmask);
        
         if (Isgrounded)
         {
@@ -110,6 +110,13 @@ public class PlayerController : MonoBehaviour
             velocity.y = -2f;
             
         }
+        
+        if (Isgrounded && Sliding == true)
+        {
+            Vector3 slope1 = Vector3.ProjectOnPlane(Vector3.down, hit.normal);
+            velocity -= slope1 * slidespeed * Time.deltaTime;
+        }
+
         if (Input.GetButtonDown("Jump") && Isgrounded == true && angle < 45)
         {
             velocity.y = MathF.Sqrt(jumppower * -2 * gravity);       
