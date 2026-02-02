@@ -1,7 +1,4 @@
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 
 public class CameraFollow : MonoBehaviour
