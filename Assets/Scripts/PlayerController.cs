@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
 
         Controller.Move(Pos * speed * multiplier * Time.deltaTime);
   
-        Controller.Move(velocity * Time.deltaTime);
+        Controller.Move(velocity * multiplier* Time.deltaTime);
 
         velocity.y += gravity * Time.deltaTime;
 
@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
 
             if (velocity.y < 0 && WalkAble )
             {
-                velocity.y = -2f; // Stick to ground
+                velocity.y = -1f; // Stick to ground
                 velocity.x = 0f;
                 velocity.z = 0f;
             }

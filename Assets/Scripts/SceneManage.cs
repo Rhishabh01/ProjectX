@@ -1,8 +1,14 @@
+using Microsoft.Unity.VisualStudio.Editor;
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class SceneManage : MonoBehaviour
 {
+    public GameObject fade;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -27,9 +33,9 @@ public class SceneManage : MonoBehaviour
 
     public void SwitchToGame() // changes to game scene // play button
     {
-        
-        SceneManager.LoadScene("SampleScene");
-       
+        StartCoroutine(FadeEffect());
+
+        fade.SetActive(true);
     }
 
     public void SwitchToSettings()
@@ -44,5 +50,11 @@ public class SceneManage : MonoBehaviour
        
     }
 
+    IEnumerator FadeEffect()
+    {
+        yield return new WaitForSeconds(4);
+        
+        SceneManager.LoadScene("SampleScene");
+    }
 
 }
