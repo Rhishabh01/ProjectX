@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class ControlScene : MonoBehaviour
 {
     public GameObject sceneUI;
-   
+  
     public bool Uiwork;
     public bool gamepause = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -76,6 +76,7 @@ public class ControlScene : MonoBehaviour
         sceneUI.SetActive(true);
         Time.timeScale = 0f;     
         gamepause = true;
+     
         Cursor.lockState = CursorLockMode.None;
     }
 

@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public GameObject camera;
     private Vector3 velocity;
     public LayerMask groundmask;
+    
     private Animator anim;
     private float jumppower = 5;
     public float gravity;
@@ -33,6 +34,7 @@ public class PlayerController : MonoBehaviour
     bool AlreadyAttackMotion;
     bool WalkAble;
     bool Sliding;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -57,6 +59,7 @@ public class PlayerController : MonoBehaviour
         Animator anim = sword.GetComponent<Animator>();
 
         float InputX = Input.GetAxis("Horizontal");
+        
         float InputZ = Input.GetAxis("Vertical");
 
         Vector3 Pos = transform.right * InputX + transform.forward * InputZ;
@@ -77,7 +80,7 @@ public class PlayerController : MonoBehaviour
         }
 
         Isgrounded = Physics.Raycast(groundcheck.transform.position, Vector3.down, out RaycastHit hit, 1.2f, groundmask);
-
+       
         if (Isgrounded)
         {
             angle = Vector3.Angle(hit.normal, Vector3.up);
@@ -143,21 +146,21 @@ public class PlayerController : MonoBehaviour
         {
             camera.transform.localPosition = new Vector3(0, 0.212f, 0);
             Vector3 sliding;
-            sliding = gameObject.transform.forward * 2;
-            velocity = sliding * 2;         
+            sliding = gameObject.transform.forward;
+            velocity = sliding * 5;         
             duration -= Time.deltaTime;
-            velocity.y = -1.5f;
+            velocity.y -= 5f;
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 Sliding = false;
                 velocity.y = MathF.Sqrt(jumppower * -2 * gravity);
             }
-        }
+        }     
         else
         {
             camera.transform.localPosition = new Vector3(0, 0.812f, 0);
             Sliding = false;
-            duration = 1.5f;   
+            duration = 1.5f;
         }
     }
 
