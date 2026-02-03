@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
 
             if (velocity.y < 0 && WalkAble )
             {
-                velocity.y = -2f; // Stick to ground
+                velocity.y = -5f; // Stick to ground
                 velocity.x = 0f;
                 velocity.z = 0f;
             }
@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
 
         if (Isgrounded && velocity.y < 0 && WalkAble == true)
         {
-            velocity.y = -2f;
+            velocity.y = -5f;
             
         }
         
