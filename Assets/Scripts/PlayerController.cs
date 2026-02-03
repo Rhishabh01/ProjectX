@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
 
             if (velocity.y < 0 && WalkAble )
             {
-                velocity.y = -1f; // Stick to ground
+                velocity.y = -2f; // Stick to ground
                 velocity.x = 0f;
                 velocity.z = 0f;
             }
@@ -172,17 +172,16 @@ public class PlayerController : MonoBehaviour
 
     void FightSystem()
     {
-        if (Input.GetMouseButtonDown(0) && HasEquipped == true && IsSprinting == false && AlreadyAttackMotion == false && Cursor.lockState == CursorLockMode.Locked )
+        if (Input.GetMouseButtonDown(0) && HasEquipped == true && Cursor.lockState == CursorLockMode.Locked )
         {
-            anim.SetTrigger("Attack1");
-            AlreadyAttackMotion = true;
+            anim.SetTrigger("Attack1");      
             StartCoroutine(WeaponCooldown());
         }
-        else if(Input.GetMouseButtonDown(1) && HasEquipped == true && IsSprinting == false && AlreadyAttackMotion == false)
+        else if(Input.GetMouseButtonDown(1) && HasEquipped == true && Cursor.lockState == CursorLockMode.Locked)
         {
             anim.SetTrigger("Attack2");
-            StartCoroutine(ResetCoolDown());
-            AlreadyAttackMotion = true;
+            StartCoroutine(WeaponCooldown2());
+          
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -194,15 +193,15 @@ public class PlayerController : MonoBehaviour
     IEnumerator WeaponCooldown()
     {
         yield return new WaitForSeconds(0.5f);
-        anim.SetTrigger("Attack1");
-        AlreadyAttackMotion = false;
+        anim.ResetTrigger("Attack1");
+        
     }
     
-    IEnumerator ResetCoolDown()
+    IEnumerator WeaponCooldown2()
     { 
-        yield return new WaitForSeconds(0.7f);
-        anim.SetTrigger("Attack2");
-        AlreadyAttackMotion = false;
+        yield return new WaitForSeconds(0.5f);
+        anim.ResetTrigger("Attack2");
+        
     }
     
 
