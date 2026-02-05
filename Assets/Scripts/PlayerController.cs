@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
   
         Controller.Move(velocity * multiplier* Time.deltaTime);
 
-        velocity.y += gravity * multiplier * Time.deltaTime;
+        velocity.y += gravity * Time.deltaTime;
 
         if (InputX > 0 || InputZ > 0)
         {
