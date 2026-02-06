@@ -19,12 +19,13 @@ public class EnemyMovement : MonoBehaviour
     {
         
 
-       /* Vector3 lookDirect=(player.transform.position - gameObject.transform.position).normalized;
-        enemyRb.transform.Translate(lookDirect * enemySpeed * Time.deltaTime);*/
+        Vector3 lookDirect=( player.transform.localPosition).normalized;
+       // enemyRb.transform.Translate(Rot * enemySpeed * Time.deltaTime);*/
 
-        Vector3 Rot = (player.transform.position);
-
+       Vector3 Rot = (player.transform.position);
         gameObject.transform.LookAt(Rot);
+        enemyRb.transform.Translate(-lookDirect * enemySpeed * Time.deltaTime);
+        
 
         
 
